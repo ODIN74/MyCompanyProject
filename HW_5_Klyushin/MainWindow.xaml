@@ -5,8 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW_5_Klyushin"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Моя компания" Height="450" Width="800" Activated="Window_Activated">
+    <Window.Resources>
+    </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" ></ColumnDefinition>
+            <ColumnDefinition Width="1*" ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding Path=EmployeesList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                  Grid.Column="0" 
+                  Grid.RowSpan="2" 
+                  HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" 
+                  Name ="EmployeesViewer" 
+                  Margin="3"
+                  AutoGenerateColumns="False"
+                  SelectionUnit="FullRow"
+                  GotFocus="EmployeesViewer_OnGotFocus" LostFocus="EmployeesViewer_OnLostFocus">
+        <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Path=Id, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Lastname, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Пол" Binding="{Binding Path=Sex, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDay, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding EmployeeDepartment.Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Должность" Binding="{Binding Path=Position, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата приема на работу" Binding="{Binding Path=DateOfEmployment, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Оклад" Binding="{Binding Path=Salary, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Path=Employ, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Выбрать отдел:" FontStyle="Italic" FontSize="14" VerticalAlignment="Top"></Label>
+            <ComboBox ItemsSource="{Binding Path=DepartmentsList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      Grid.Row="1" 
+                      Margin="5"
+                      Height="30"
+                      x:Name="cbDepartments" 
+                      SelectionChanged="cbDepartments_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Row ="2" Margin="5" Height="22" Content="Сбросить фильтр" Name="BtnResetFilter" Click="BtnResetFilter_Click"/>
+            <Button Grid.Row ="3" Margin="5,20,5,5" Height="22" Content="Редактировать сотрудника" Name="BtnEditEmployee" Click="BtnEditEmployee_Click"></Button>
+        </Grid>
+        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+            <Button Content="Добавить отдел" Name="btnAddDepartment" Margin="5" Click="btnAddDepartment_Click"></Button>
+            <Button Content="Добавить сотрудника" Name="btnAddEmployee" Margin="5" Click="btnAddEmployee_Click"></Button>
+        </StackPanel>
         
     </Grid>
 </Window>

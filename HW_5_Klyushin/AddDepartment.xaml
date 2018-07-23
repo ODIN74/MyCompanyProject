@@ -1,0 +1,23 @@
+﻿<Window x:Class="HW_5_Klyushin.AddDepartment"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HW_5_Klyushin"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Добавить отдел" Height="250" Width="400" MaxWidth="400" MaxHeight="250" MinWidth="400" MinHeight="250">
+<Window.Resources>
+
+    </Window.Resources>
+    <StackPanel>
+        <Label Content="Название отдела:" VerticalAlignment="Top"></Label>
+        <TextBox Margin="5" BorderThickness="1" BorderBrush="Red" VerticalAlignment="Top" Name="tbNameOfDepartment" TextChanged="tbNameOfDepartment_TextChanged" ></TextBox>
+        <Label Content="Руководитель отдела:" VerticalAlignment="Top"></Label>
+        <RadioButton Content="Ещё не назначен" IsChecked="true" VerticalAlignment="Top" Checked="RadioButton_Checked_1" Name="noHead"></RadioButton>
+        <RadioButton Content="Выбрать из списка сотрудников" VerticalAlignment="Top" Checked="RadioButton_Checked" Name="withHead"></RadioButton>
+        <ComboBox Margin="5" VerticalAlignment="Top" Name="cbEmployees" IsEnabled="false" ItemsSource="{Binding Path=EmployeesList, Mode=OneTime}"></ComboBox>
+        <Button Content="Добавить" IsEnabled="false" VerticalAlignment="Top" Margin="5,10,5,0" Name="btnAdd" Click="btnAdd_Click"></Button>
+        <Button Content="Отмена" VerticalAlignment="Top" Margin="5,10,5,0" Click="Button_Click"></Button>
+    </StackPanel>
+</Window>

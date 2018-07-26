@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 namespace HW_5_Klyushin
 {
     using System.Collections.ObjectModel;
+    using System.Data;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -27,6 +28,8 @@ namespace HW_5_Klyushin
         public ObservableCollection<Department> DepartmentsList { get; set; }
 
         public ObservableCollection<Employee> EmployeesList { get; set; }
+        public DataTable Departments { get; set; }
+        public DataTable Employees { get; set ; }
 
         public AddDepartment()
         {
@@ -36,7 +39,9 @@ namespace HW_5_Klyushin
 
             this.newPresenter.LoadData();
 
-            this.DataContext = this;
+            this.Employees = this.newPresenter.LoadEmployees();
+
+            this.cbEmployees.DataContext = this.Employees.DefaultView;
 
         }
 
@@ -64,10 +69,17 @@ namespace HW_5_Klyushin
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            this.newPresenter.AddDepartment(this.tbNameOfDepartment.Text, this.cbEmployees.SelectionBoxItem as Employee, this.withHead.IsChecked);
-            this.newPresenter.EmployeePositionIsHead(
-                this.cbEmployees.SelectedItem as Employee,
-                this.withHead.IsChecked);
+            this.newPresenter.AddDepartment(this.tbNameOfDepartment.Text, 
+                                            (this.cbEmployees.SelectedItem as DataRowView)?.Row["FIO"]?.ToString(), 
+                                            this.withHead.IsChecked);
+
+            if ((bool)this.withHead.IsChecked)
+            {
+                    this.newPresenter.EmployeePositionIsHead(
+                    (int)(this.cbEmployees.SelectionBoxItem as DataRowView).Row["Id"],
+                    this.withHead.IsChecked);
+            }
+
             this.Close();
         }
     }

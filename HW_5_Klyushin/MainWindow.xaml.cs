@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 namespace HW_5_Klyushin
 {
     using System.Collections.ObjectModel;
+    using System.Data;
 
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -27,6 +28,8 @@ namespace HW_5_Klyushin
         public ObservableCollection<Department> DepartmentsList { get; set; }
 
         public ObservableCollection<Employee> EmployeesList { get; set; }
+        public DataTable Departments { get; set; }
+        public DataTable Employees { get; set; }
 
         public MainWindow()
         {
@@ -36,14 +39,17 @@ namespace HW_5_Klyushin
 
             this.newPresnter.LoadData();
 
-            this.DataContext = this;
+            //this.newPresnter.CreateDb();
+
+            this.EmployeesViewer.DataContext = this.Employees.DefaultView;
+            this.cbDepartments.DataContext = this.Departments.DefaultView;
 
         }
 
         private void cbDepartments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.EmployeesViewer.ItemsSource =
-                this.newPresnter.SelectEmployeesData(this.cbDepartments.SelectedItem as Department);
+            this.EmployeesViewer.DataContext =
+                this.newPresnter.SelectEmployeesData((this.cbDepartments.SelectedItem as DataRowView).Row["Name"].ToString()).DefaultView;
         }
 
         private void btnAddDepartment_Click(object sender, RoutedEventArgs e)
@@ -58,30 +64,15 @@ namespace HW_5_Klyushin
             EmployeeAdd.ShowDialog();
         }
 
-        private void EmployeesViewer_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            //this.newPresnter.DataUpdate(this.EmployeesList);
-        }
-
-        private void EmployeesViewer_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            this.BtnEditEmployee.IsEnabled = true;
-        }
-
-        private void EmployeesViewer_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            //this.BtnEditEmployee.IsEnabled = false;
-        }
-
         private void BtnEditEmployee_Click(object sender, RoutedEventArgs e)
         {
-            Editor editor = new Editor((Employee)this.EmployeesViewer.SelectedItem);
+            Editor editor = new Editor((this.EmployeesViewer.SelectedItem as DataRowView).Row);
             editor.ShowDialog();
         }
 
         private void BtnResetFilter_Click(object sender, RoutedEventArgs e)
         {
-            this.EmployeesViewer.ItemsSource = this.EmployeesList;
+            this.EmployeesViewer.DataContext = this.Employees.DefaultView;
         }
 
         private void Window_Activated(object sender, EventArgs e)

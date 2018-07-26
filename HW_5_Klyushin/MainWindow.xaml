@@ -17,7 +17,7 @@
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Path=EmployeesList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid ItemsSource="{Binding Mode=OneWay, UpdateSourceTrigger=LostFocus}"
                   Grid.Column="0" 
                   Grid.RowSpan="2" 
                   HorizontalAlignment="Stretch" 
@@ -25,20 +25,19 @@
                   Name ="EmployeesViewer" 
                   Margin="3"
                   AutoGenerateColumns="False"
-                  SelectionUnit="FullRow"
-                  GotFocus="EmployeesViewer_OnGotFocus" LostFocus="EmployeesViewer_OnLostFocus">
+                  SelectionUnit="FullRow">
         <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Path=Id, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Lastname, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Пол" Binding="{Binding Path=Sex, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDay, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Отдел" Binding="{Binding EmployeeDepartment.Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Должность" Binding="{Binding Path=Position, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Дата приема на работу" Binding="{Binding Path=DateOfEmployment, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Оклад" Binding="{Binding Path=Salary, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Path=Employ, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Lastname}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Пол" Binding="{Binding Sex}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDay, StringFormat=d, ConverterCulture='ru-RU'}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding Department}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Должность" Binding="{Binding Position}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата приема на работу" Binding="{Binding DateOfEmployment, StringFormat=d, ConverterCulture='ru-RU'}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Оклад" Binding="{Binding Salary}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Employ}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
             
         </DataGrid>
@@ -50,7 +49,7 @@
                 <RowDefinition Height="60"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="Выбрать отдел:" FontStyle="Italic" FontSize="14" VerticalAlignment="Top"></Label>
-            <ComboBox ItemsSource="{Binding Path=DepartmentsList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            <ComboBox ItemsSource="{Binding Mode=OneWay, UpdateSourceTrigger=LostFocus}"
                       Grid.Row="1" 
                       Margin="5"
                       Height="30"
@@ -58,7 +57,7 @@
                       SelectionChanged="cbDepartments_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                        <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=LostFocus}"></TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
@@ -72,3 +71,4 @@
         
     </Grid>
 </Window>
+

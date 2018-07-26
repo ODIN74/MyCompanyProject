@@ -47,26 +47,32 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch">
             <Label Content="Фамилия:"></Label>
-            <TextBox Name="tbSurname" DataContext="{Binding Path=AddedEmployee, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" Text="{Binding Path=Surname, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"></TextBox>
+            <TextBox Name="tbSurname" ></TextBox>
             <Label Content="Отчество:" ></Label>
-            <TextBox Name="tbLastname" DataContext="{Binding Path=AddedEmployee, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" Text="{Binding Path=Lastname, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"></TextBox>
+            <TextBox Name="tbLastname"></TextBox>
             <Label Content="Пол:"></Label>
             <RadioButton Content="Мужской" Name="rbMail" IsChecked="true"></RadioButton>
             <RadioButton Content="Женский" Name="rbFemale"></RadioButton>
             <Label Content="Должность:"></Label>
-            <TextBox Name="tbPosition" DataContext="{Binding Path=AddedEmployee, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" Text="{Binding Path=Position, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"></TextBox>
+            <TextBox Name="tbPosition" ></TextBox>
             <Label Content="Зароботная плата:"></Label>
-            <TextBox Name="tbSalary" DataContext="{Binding Path=AddedEmployee, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" Text="{Binding Path=Salary, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"></TextBox>
+            <TextBox Name="tbSalary" ></TextBox>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch">
             <Label Content="Имя:" ></Label>
-            <TextBox Name="tbName" DataContext="{Binding Path=AddedEmployee, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" Text="{Binding Path=Name, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"></TextBox>
+            <TextBox Name="tbName"></TextBox>
             <Label Content="Дата рождения:"></Label>
-            <DatePicker Name="dpBirthday" FontSize="14" FontStyle="Italic" Height="30" Margin="5,2,5,2" DataContext="{Binding Path=AddedEmployee, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" Text="{Binding Path=BirthDay, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"></DatePicker>
+            <DatePicker Name="dpBirthday" FontSize="14" FontStyle="Italic" Height="30" Margin="5,2,5,2" ></DatePicker>
             <Label Content="Отдел:"></Label>
-            <ComboBox Name="cbDepartments" ItemsSource="{Binding Path=DepartmentsList, Mode=OneWay}"></ComboBox>
+            <ComboBox Name="cbDepartments" ItemsSource="{Binding}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Label Content="Дата приема на работу:"></Label>
-            <DatePicker Name="dpDateOfEmployment" FontSize="14" FontStyle="Italic" Height="30" Margin="5,2,5,2" DataContext="{Binding Path=AddedEmployee, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" Text="{Binding Path=DateOfEmployment, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"></DatePicker>
+            <DatePicker Name="dpDateOfEmployment" FontSize="14" FontStyle="Italic" Height="30" Margin="5,2,5,2" ></DatePicker>
         </StackPanel>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>

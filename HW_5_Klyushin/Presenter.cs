@@ -8,6 +8,7 @@ namespace HW_5_Klyushin
 {
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Data;
     using System.Windows;
     using System.Windows.Documents;
 
@@ -39,16 +40,32 @@ namespace HW_5_Klyushin
 
         public void LoadData()
         {
-            this.data.ReadData();
+            //this.data.ReadData();
 
-            this.view.DepartmentsList = new ObservableCollection<Department>(this.data.departmentsList);
-            this.view.EmployeesList = new ObservableCollection<Employee>(this.data.employeesList);
+            this.data.ReadDataFromSql();
+
+            this.view.Departments = this.data.departments;
+            this.view.Employees = this.data.employees;
+
+            //this.view.DepartmentsList = new ObservableCollection<Department>(this.data.departmentsList);
+            //this.view.EmployeesList = new ObservableCollection<Employee>(this.data.employeesList);
+        }
+
+        internal DataTable LoadEmployees()
+        {
+            return this.data.ReadEmployeesForAdd();
+        }
+
+        internal void CreateEmployeeToSql(Employee employee)
+        {
+            this.data.AddEmployeeToSql(employee);
         }
 
         public void LoadDataForAdd()
         {
-            this.data.ReadData();
-            this.add.DepartmentsList = new ObservableCollection<Department>(this.data.departmentsList);
+            this.data.ReadDataFromSql();
+            //this.add.DepartmentsList = new ObservableCollection<Department>(this.data.departmentsList);
+            this.add.Departments = this.data.departments;
         }
 
         public void DataUpdate(ObservableCollection<Employee> employeesData)
@@ -64,9 +81,20 @@ namespace HW_5_Klyushin
             this.editor.CurrentEmployee = currentEmployee;
         }
 
+        internal void EditEmployee()
+        {
+            this.data.ReadDataFromSql();
+            this.editor.Departments = this.data.departments;
+        }
+
         internal IEnumerable<Employee> SelectEmployeesData(Department selector) => from n in this.data.employeesList
                                                                                    where n.EmployeeDepartment.Name == selector.Name
                                                                                    select n;
+
+        internal DataTable SelectEmployeesData(string department)
+        {
+            return this.data.SelectEmloyeesByDepartment(department);
+        }
 
         internal void EmployeePositionIsHead(Employee employee, bool? isChecked)
         {
@@ -78,10 +106,24 @@ namespace HW_5_Klyushin
             }
         }
 
-        internal void AddDepartment(string text, Employee employee, bool? isChecked)
+        internal void EmployeePositionIsHead(int EmployeeId, bool? isChecked)
         {
-            if ((bool)isChecked) this.data.AddDepartment(text, employee);
-            else this.data.AddDepartment(text);
+            if ((bool)isChecked)
+            {
+                this.data.UpdatePositionEmployee(EmployeeId);
+            }
+        }
+
+        internal void AddDepartment(string departmentName, Employee employee, bool? isChecked)
+        {
+            if ((bool)isChecked) this.data.AddDepartment(departmentName, employee);
+            else this.data.AddDepartment(departmentName);
+        }
+
+        internal void AddDepartment(string departmentName, string FIO, bool? isChecked)
+        {
+            if ((bool)isChecked && FIO!=null) this.data.AddDepartmentToSql(departmentName, FIO);
+            else this.data.AddDepartmentToSql(departmentName);
         }
 
         internal void SaveEmployeeData(Employee curentEmployee)
@@ -102,6 +144,11 @@ namespace HW_5_Klyushin
                 employee.Salary,
                 employee.DateOfEmployment);
             this.data.WriteData();
+        }
+
+        internal void CreateDb()
+        {
+            this.data.CreateSqlDb();
         }
     }
 }

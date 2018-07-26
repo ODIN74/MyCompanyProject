@@ -1,0 +1,45 @@
+1.Создать базу данных с именем MyCompany
+
+2.Создать таблицу Departments 
+CREATE TABLE [dbo].[Departments] (
+    [Id]                INT            IDENTITY (1, 1) NOT NULL,
+    [Name]              NVARCHAR (100) NOT NULL,
+    [Head]              NVARCHAR (100) NULL,
+    [NumberOfEmployees] INT            NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+3.Создать таблицу Employees
+CREATE TABLE [dbo].[Employees] (
+    [Id]               INT                IDENTITY (1, 1) NOT NULL,
+    [Name]             NVARCHAR (20)      NOT NULL,
+    [Lastname]         NVARCHAR (20)      NULL,
+    [Surname]          NVARCHAR (20)      NOT NULL,
+    [BirthDay]         DATETIMEOFFSET NOT NULL,
+    [Sex]              NVARCHAR (1)       NOT NULL,
+    [Department]       INT                NOT NULL,
+    [Position]         NVARCHAR (100)     NOT NULL,
+    [Salary]           DECIMAL (10, 2)    NOT NULL,
+    [DateOfEmployment] DATETIMEOFFSET NOT NULL,
+    [Employ]           NVARCHAR (10)      NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Departments_ToEmployees] FOREIGN KEY ([Department]) REFERENCES [dbo].[Departments] ([Id])
+);
+
+4. Добавление данных в Departments
+$@"INSERT INTO Departments (Name, Head, NumberOfEmployees) 
+                VALUES (N'{department.Name}', N'{department.HeadOfDepartment}', {department.NumberOfEmployees})"
+
+5. Добавление данных в Employees
+$@"INSERT INTO Employees (Name, Lastname, Surname, BirthDay, Sex, Department, Position, Salary, DateOfEmployment, Employ) 
+                                                           VALUES (N'{employee.Name}', 
+                                                                   N'{employee.Lastname}', 
+                                                                   N'{employee.Surname}',
+                                                                   '{employee.BirthDay.ToString("O")}',
+                                                                   N'{employee.Sex}',
+                                                                   {departmentId},
+                                                                   N'{employee.Position}',
+                                                                   {employee.Salary},
+                                                                   '{employee.DateOfEmployment.ToString("O")}',
+                                                                   N'{employee.Employ}')"
+
+6.Чтобы загрузить данные из XML файлов в MainWindow.xaml.cs  раскомментировать строку 42 this.newPresnter.CreateDb();

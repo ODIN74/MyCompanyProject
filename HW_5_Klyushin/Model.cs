@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +9,22 @@ namespace HW_5_Klyushin
 {
     using System.Collections;
     using System.Collections.ObjectModel;
+    using System.Data;
+    using System.Runtime.CompilerServices;
 
     internal class Model
     {
         public List<Department> departmentsList { get; set; }
 
         public List<Employee> employeesList { get; set; }
+
+        private ReadAndWriteSqlDB rwsdb = new ReadAndWriteSqlDB();
+
+        public DataTable departments { get; set; }
+
+        public DataTable employees { get; set; }
+
+        private string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = MyCompany; Integrated Security = True";
 
         public Model()
         {
@@ -26,6 +37,22 @@ namespace HW_5_Klyushin
             this.departmentsList = DataReaderAndWriter<Department>.ReadDataFromXml("./departments.xml");
 
             this.employeesList = DataReaderAndWriter<Employee>.ReadDataFromXml("./employees.xml");
+        }
+
+        public void ReadDataFromSql()
+        {
+            this.departments = this.rwsdb.ReadDepartmentsFromSqlDb(this.connectionString);
+            this.employees = this.rwsdb.ReadEmployeesFromSqlDb(this.connectionString);
+        }
+
+        public DataTable ReadEmployeesForAdd()
+        {
+            return this.rwsdb.ReadEmployeesFromSqlForAdd(this.connectionString);
+        }
+
+        internal void AddEmployeeToSql(Employee employee)
+        {
+            this.rwsdb.AddEmployeeToSqlDb(employee, this.connectionString);
         }
 
         public void WriteData()
@@ -43,7 +70,17 @@ namespace HW_5_Klyushin
         public void AddDepartment(string name, Employee employee)
         {
             this.departmentsList.Add(new Department(name, employee));
-            this.EmployeePositionUpdate(employee,this.departmentsList[ this.departmentsList.Count - 1]);
+            this.EmployeePositionUpdate(employee, this.departmentsList[this.departmentsList.Count - 1]);
+        }
+
+        public void AddDepartmentToSql(string departmentName)
+        {
+            this.rwsdb.AddDepartmentToSqlDb(departmentName, this.connectionString);
+        }
+
+        public void AddDepartmentToSql(string departmentName, string FIO)
+        {
+            this.rwsdb.AddDepartmentToSqlDb(departmentName, FIO, this.connectionString);
         }
 
         public void AddEmployee(
@@ -87,6 +124,16 @@ namespace HW_5_Klyushin
             }
         }
 
+        internal void UpdatePositionEmployee(int employeeId)
+        {
+            this.rwsdb.UpdatePositionEmployee(employeeId, this.connectionString);
+        }
+
+        internal DataTable SelectEmloyeesByDepartment(string department)
+        {
+            return this.rwsdb.SelectEmployeesByDepartment(department, this.connectionString);
+        }
+
         public void SaveEmployeeData(Employee currentEmployee)
         {
             int index = 0;
@@ -125,6 +172,19 @@ namespace HW_5_Klyushin
                 }
             }
             this.employeesList[index].EmployeeDepartment = department;
+        }
+
+        public void CreateSqlDb()
+        {
+            foreach (var d in this.departmentsList)
+            {
+                this.rwsdb.AddDepartmenToSqlDb(d, this.connectionString);
+            }
+
+            foreach (var e in this.employeesList)
+            {
+                this.rwsdb.AddEmployeeToSqlDb(e, this.connectionString);
+            }
         }
     }
 }

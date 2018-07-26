@@ -12,10 +12,11 @@ namespace HW_5_Klyushin
     /// </summary>
     public class Employee : Human, INotifyPropertyChanged
     {
+        private static int globalId = 6;
         /// <summary>
         /// Emloyee id
         /// </summary>
-        private int id = 0;
+        private int id;
 
         private Department employeeDepartment;
 
@@ -71,8 +72,9 @@ namespace HW_5_Klyushin
             {
                 department.SetHeadOfDepartment($"{this.Name} {this.Lastname} {this.Surname}");
             }
-            this.id = ++id;
+            this.id = ++globalId;
             this.employ = "Работает";
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Employ)));
         }
 
         /// <summary>

@@ -16,7 +16,13 @@
         <Label Content="Руководитель отдела:" VerticalAlignment="Top"></Label>
         <RadioButton Content="Ещё не назначен" IsChecked="true" VerticalAlignment="Top" Checked="RadioButton_Checked_1" Name="noHead"></RadioButton>
         <RadioButton Content="Выбрать из списка сотрудников" VerticalAlignment="Top" Checked="RadioButton_Checked" Name="withHead"></RadioButton>
-        <ComboBox Margin="5" VerticalAlignment="Top" Name="cbEmployees" IsEnabled="false" ItemsSource="{Binding Path=EmployeesList, Mode=OneTime}"></ComboBox>
+        <ComboBox Margin="5" VerticalAlignment="Top" Name="cbEmployees" IsEnabled="false" ItemsSource="{Binding Mode=OneTime}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FIO}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <Button Content="Добавить" IsEnabled="false" VerticalAlignment="Top" Margin="5,10,5,0" Name="btnAdd" Click="btnAdd_Click"></Button>
         <Button Content="Отмена" VerticalAlignment="Top" Margin="5,10,5,0" Click="Button_Click"></Button>
     </StackPanel>

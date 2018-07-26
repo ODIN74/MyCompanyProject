@@ -16,6 +16,8 @@ namespace HW_5_Klyushin
     {
         private string name;
 
+        private string headOfDepartment;
+
         /// <summary>
         /// Number of Departments
         /// </summary>
@@ -37,7 +39,15 @@ namespace HW_5_Klyushin
         /// <summary>
         /// Head of department
         /// </summary>
-        private string headOfDepartment;
+        public string HeadOfDepartment
+        {
+            get => this.headOfDepartment;
+            set
+            {
+                this.headOfDepartment = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.HeadOfDepartment)));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -47,7 +57,7 @@ namespace HW_5_Klyushin
         public Department()
         {
             this.Name = String.Empty;
-            this.headOfDepartment = String.Empty;
+            this.HeadOfDepartment = String.Empty;
             numberOfDepartments++;
         }
 
@@ -58,7 +68,7 @@ namespace HW_5_Klyushin
         public Department(string name)
         {
             this.Name = name;
-            this.headOfDepartment = String.Empty;
+            this.HeadOfDepartment = String.Empty;
             numberOfDepartments++;
         }
 
@@ -70,7 +80,7 @@ namespace HW_5_Klyushin
         public Department(string name, Employee headOfDepartment)
         {
             this.Name = name;
-            this.headOfDepartment = $"{headOfDepartment.Name} {headOfDepartment.Lastname} {headOfDepartment.Surname}";
+            this.HeadOfDepartment = $"{headOfDepartment.Name} {headOfDepartment.Lastname} {headOfDepartment.Surname}";
             numberOfDepartments++;
         }
 
@@ -80,8 +90,7 @@ namespace HW_5_Klyushin
         /// <param name="headOfDepartment">Head of department</param>
         public void SetHeadOfDepartment(string headOfDepartment)
         {
-            this.headOfDepartment = headOfDepartment;
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.headOfDepartment)));
+            this.HeadOfDepartment = headOfDepartment;
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace HW_5_Klyushin
 {
     using System.Collections.ObjectModel;
+    using System.Data;
     using System.Runtime.CompilerServices;
 
     internal interface IViewMain
@@ -14,5 +15,9 @@ namespace HW_5_Klyushin
         ObservableCollection<Department> DepartmentsList { set; }
 
         ObservableCollection<Employee> EmployeesList { set; }
+
+        DataTable Departments { get; set; }
+
+        DataTable Employees { get; set; }
     }
 }
